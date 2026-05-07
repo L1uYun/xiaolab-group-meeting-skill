@@ -10,8 +10,10 @@
   --deck-w:1280;
   --deck-h:720;
   --ink:#1c1b1a;
+  --ink-rgb:28,27,26;
   --muted:#6c5f58;
   --paper:#ffffff;
+  --paper-rgb:255,255,255;
   --panel:#fcf7f3;
   --line:rgba(28,27,26,.12);
   --line-strong:rgba(126,86,58,.22);
@@ -25,13 +27,27 @@
   --gap-lg:24px;
   --gap-md:18px;
   --gap-sm:12px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  --serif-zh:"Noto Serif SC","Source Han Serif SC",serif;
+  --sans-zh:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
 }
-html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000;color:var(--ink);font-family:"Inter","Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:0;pointer-events:none}
-#bg-light{opacity:1} #bg-dark{opacity:0}
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:var(--ink);color:var(--paper);font-family:var(--sans-zh);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:0;pointer-events:none;transition:opacity .8s ease}
+#bg-light{opacity:0} 
+#bg-dark{opacity:1}
+body.light-bg #bg-light{opacity:1}
+body.light-bg #bg-dark{opacity:0}
 #deck{position:fixed;inset:0;width:10000vw;height:100vh;display:flex;flex-wrap:nowrap;transition:transform .72s cubic-bezier(.77,0,.175,1);z-index:10;will-change:transform}
 .slide{width:100vw;height:100vh;flex:0 0 100vw;position:relative;overflow:hidden;background:#fff}
-.stage{position:absolute;left:50%;top:50%;width:calc(var(--deck-w) * 1px);height:calc(var(--deck-h) * 1px);transform:translate(-50%,-50%) scale(var(--stage-scale,1));transform-origin:center center;overflow:hidden;background:var(--paper)}
+.slide::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;transition:background .6s ease,backdrop-filter .6s ease}
+.slide.light::before{background:rgba(var(--paper-rgb),.93);backdrop-filter:blur(3px)}
+.slide.dark::before{background:rgba(var(--ink-rgb),.88);backdrop-filter:blur(3px)}
+.slide.hero.light::before{background:rgba(var(--paper-rgb),.20);backdrop-filter:none}
+.slide.hero.dark::before{background:rgba(var(--ink-rgb),.18);backdrop-filter:none}
+.slide.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none}
+.slide.hero.light::after{background:linear-gradient(180deg,rgba(var(--paper-rgb),.28) 0%,rgba(var(--paper-rgb),0) 14%,rgba(var(--paper-rgb),0) 86%,rgba(var(--paper-rgb),.28) 100%)}
+.slide.hero.dark::after{background:linear-gradient(180deg,rgba(var(--ink-rgb),.34) 0%,rgba(var(--ink-rgb),0) 14%,rgba(var(--ink-rgb),0) 86%,rgba(var(--ink-rgb),.34) 100%)}
+.stage{position:absolute;left:50%;top:50%;width:calc(var(--deck-w) * 1px);height:calc(var(--deck-h) * 1px);transform:translate(-50%,-50%) scale(var(--stage-scale,1));transform-origin:center center;overflow:hidden;background:var(--paper);z-index:2}
 .top-bar{position:absolute;left:0;top:0;width:1280px;height:64px;background:var(--band-top);z-index:2}
 .bottom-band{position:absolute;left:0;bottom:0;width:1280px;height:48px;background:var(--band-bottom);z-index:2}
 .hero-band{position:absolute;left:0;top:236px;width:1280px;height:248px;background:var(--band-bottom);z-index:1}
@@ -40,15 +56,16 @@ canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:
 .logo-top-right-small{position:absolute;left:816px;top:1px;width:228px;height:68px;object-fit:contain;z-index:4}
 .safe-area{position:absolute;left:var(--safe-left);top:var(--safe-top);width:calc(1280px - var(--safe-left) - var(--safe-right));height:calc(720px - var(--safe-top) - var(--safe-bottom));z-index:3}
 .hero-centered{position:absolute;left:120px;top:278px;width:1040px;text-align:center;z-index:5}
-.hero-centered h1{margin:0;font-size:48px;line-height:1.14;font-weight:800;color:#1f1f1f}
+.hero-centered h1{margin:0;font-size:48px;line-height:1.14;font-weight:800;color:#1f1f1f;font-family:var(--serif-zh);letter-spacing:-.01em}
 .hero-centered p{margin:28px 0 0;font-size:24px;line-height:1.4;font-weight:700;color:#3f3f3f}
-.section-title{margin:0;font-size:42px;line-height:1.12;font-weight:800}
+.section-title{margin:0;font-size:42px;line-height:1.12;font-weight:800;font-family:var(--serif-zh);letter-spacing:-.01em}
 .section-sub{margin:0;font-size:17px;line-height:1.65;color:var(--muted)}
-.text-xl{font-size:40px;line-height:1.2;font-weight:800;color:#231d1a}
-.text-lg{font-size:34px;line-height:1.4;font-weight:800;color:#2d2623}
+.text-xl{font-size:40px;line-height:1.2;font-weight:800;color:#231d1a;font-family:var(--serif-zh)}
+.text-lg{font-size:34px;line-height:1.4;font-weight:800;color:#2d2623;font-family:var(--serif-zh)}
 .text-md{font-size:20px;line-height:1.6;color:#3d3430}
 .text-sm{font-size:16px;line-height:1.6;color:var(--muted)}
-.tiny{font-size:13px;line-height:1.5;color:#8e7d73;letter-spacing:.08em;text-transform:uppercase}
+.tiny{font-size:13px;line-height:1.5;color:#8e7d73;letter-spacing:.16em;text-transform:uppercase;font-family:var(--mono)}
+.kicker{font-size:12px;line-height:1.5;color:#8e7d73;letter-spacing:.22em;text-transform:uppercase;font-family:var(--mono)}
 .stack-xl{display:grid;gap:var(--gap-xl)}
 .stack-lg{display:grid;gap:var(--gap-lg)}
 .stack-md{display:grid;gap:var(--gap-md)}
@@ -62,9 +79,25 @@ canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:
 .slot.tall{min-height:320px}
 .line-top{padding-top:14px;border-top:1px solid var(--line-strong)}
 .divider{height:1px;background:var(--line)}
-.chrome{position:absolute;right:34px;bottom:10px;display:flex;justify-content:flex-end;align-items:center;font-size:13px;color:#7d6b61;z-index:5}
-.chrome .page{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;background:rgba(255,255,255,.78);border:1px solid rgba(126,86,58,.16);padding:6px 10px;border-radius:999px}
-#nav{display:none}.notes{display:none}
+.chrome{position:absolute;left:34px;right:34px;top:18px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px;color:#7d6b61;z-index:5;font-family:var(--mono);letter-spacing:.18em;text-transform:uppercase;opacity:.82}
+.chrome .left,.chrome .right{display:flex;gap:2em;align-items:center}
+.chrome .sep{width:34px;height:1px;background:currentColor;opacity:.35}
+.chrome .page{font-family:var(--mono);letter-spacing:.12em;background:rgba(255,255,255,.78);border:1px solid rgba(126,86,58,.16);padding:6px 10px;border-radius:999px}
+.foot{position:absolute;left:34px;right:34px;bottom:12px;display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#7d6b61;z-index:5;opacity:.7}
+.foot .title{font-family:var(--serif-zh);font-size:13px;letter-spacing:.04em;text-transform:none;opacity:.82}
+[data-anim]{opacity:1}
+body.motion-ready [data-anim]{opacity:0}
+body.motion-ready [data-anim="left"]{transform:translateX(-24px)}
+body.motion-ready [data-anim="right"]{transform:translateX(24px)}
+body.motion-ready [data-anim="line"]{opacity:0;transform:translateY(10px)}
+#nav{position:fixed;left:50%;bottom:2.6vh;transform:translateX(-50%);z-index:30;display:flex;gap:10px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+#nav .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s ease;border:0;padding:0}
+#nav .dot:hover{background:rgba(255,255,255,.5);transform:scale(1.15)}
+#nav .dot.active{background:rgba(255,255,255,.95);width:22px;border-radius:999px}
+body.light-bg #nav{background:rgba(255,255,255,.25)}
+body.light-bg #nav .dot{background:rgba(var(--ink-rgb),.25)}
+body.light-bg #nav .dot.active{background:rgba(var(--ink-rgb),.9)}
+.notes{display:none}
 @media print{html,body{background:#fff} canvas.bg,#nav{display:none !important} #deck{position:static;width:auto;height:auto;display:block;transform:none !important} .slide{width:auto;height:auto;page-break-after:always} .stage{position:relative;left:auto;top:auto;transform:none !important;margin:0 auto}}
 </style>
 </head>
@@ -72,88 +105,112 @@ canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:
 <canvas id="bg-dark" class="bg"></canvas>
 <canvas id="bg-light" class="bg"></canvas>
 <div id="deck">
-  <section class="slide" data-title="封面">
+  <section class="slide hero light" data-title="封面" data-theme="light">
     <div class="stage">
       <div class="top-bar"></div>
       <div class="bottom-band"></div>
       <div class="hero-band"></div>
+      <div class="chrome">
+        <div class="left"><span>第 01 页</span><span class="sep"></span><span>xiaolab group meeting</span></div>
+        <div class="right"><span class="page">01 / 03</span></div>
+      </div>
       <img class="logo-left-top" src="./assets/image3.png" alt="xiaolab">
       <img class="logo-top-right-small" src="./assets/image2.png" alt="湖南大学标识">
       <img class="logo-top-right" src="./assets/image1.png" alt="机构横幅">
       <div class="hero-centered">
-        <h1>{{第几次组会}}</h1>
-        <p>{{姓名}}</p>
+        <div class="kicker" data-anim>weekly lab sync</div>
+        <h1 data-anim>{{第几次组会}}</h1>
+        <p data-anim>{{姓名}}</p>
       </div>
-      <div class="chrome"><span class="page">01 / 03</span></div>
+      <div class="foot"><span class="title">核心 deck</span><span>ESC 概览 · F 全屏</span></div>
     </div>
   </section>
 
-  <section class="slide" data-title="主内容">
+  <section class="slide light" data-title="主内容" data-theme="light">
     <div class="stage">
       <div class="top-bar"></div>
       <div class="bottom-band"></div>
+      <div class="chrome">
+        <div class="left"><span>第 02 页</span><span class="sep"></span><span>main evidence</span></div>
+        <div class="right"><span class="page">02 / 03</span></div>
+      </div>
       <img class="logo-left-top" src="./assets/image3.png" alt="xiaolab">
       <img class="logo-top-right-small" src="./assets/image2.png" alt="湖南大学标识">
       <img class="logo-top-right" src="./assets/image1.png" alt="机构横幅">
       <div class="safe-area top-bottom">
         <div class="stack-md">
-          <h2 class="section-title"></h2>
-          <p class="section-sub"></p>
+          <div class="kicker" data-anim>main thread</div>
+          <h2 class="section-title" data-anim></h2>
+          <p class="section-sub" data-anim></p>
         </div>
         <div class="pair-6040">
           <div class="stack-lg">
-            <div class="text-lg"></div>
-            <div class="text-md"></div>
-            <div class="text-sm"></div>
+            <div class="text-lg" data-anim="left"></div>
+            <div class="text-md" data-anim="left"></div>
+            <div class="text-sm" data-anim="left"></div>
           </div>
-          <div class="slot tall soft"></div>
+          <div class="slot tall soft" data-anim="right"></div>
         </div>
       </div>
-      <div class="chrome"><span class="page">02 / 03</span></div>
+      <div class="foot"><span class="title">证据位 / 解释位</span><span>布局借鉴 guizang 能力层</span></div>
     </div>
   </section>
 
-  <section class="slide" data-title="下一步">
+  <section class="slide dark" data-title="下一步" data-theme="dark">
     <div class="stage">
       <div class="top-bar"></div>
       <div class="bottom-band"></div>
+      <div class="chrome">
+        <div class="left"><span>第 03 页</span><span class="sep"></span><span>next actions</span></div>
+        <div class="right"><span class="page">03 / 03</span></div>
+      </div>
       <img class="logo-left-top" src="./assets/image3.png" alt="xiaolab">
       <img class="logo-top-right-small" src="./assets/image2.png" alt="湖南大学标识">
       <img class="logo-top-right" src="./assets/image1.png" alt="机构横幅">
       <div class="safe-area top-bottom">
         <div class="stack-md">
-          <h2 class="section-title"></h2>
-          <p class="section-sub"></p>
+          <div class="kicker" data-anim>next move</div>
+          <h2 class="section-title" data-anim></h2>
+          <p class="section-sub" data-anim></p>
         </div>
         <div class="three-rail">
-          <div class="stack-sm"><div class="text-md"></div><div class="divider"></div><div class="text-sm"></div></div>
-          <div class="stack-sm"><div class="text-md"></div><div class="divider"></div><div class="text-sm"></div></div>
-          <div class="stack-sm"><div class="text-md"></div><div class="divider"></div><div class="text-sm"></div></div>
+          <div class="stack-sm"><div class="text-md" data-anim="line"></div><div class="divider"></div><div class="text-sm" data-anim="line"></div></div>
+          <div class="stack-sm"><div class="text-md" data-anim="line"></div><div class="divider"></div><div class="text-sm" data-anim="line"></div></div>
+          <div class="stack-sm"><div class="text-md" data-anim="line"></div><div class="divider"></div><div class="text-sm" data-anim="line"></div></div>
         </div>
       </div>
-      <div class="chrome"><span class="page">03 / 03</span></div>
+      <div class="foot"><span class="title">三栏推进</span><span>暗页制造节奏</span></div>
     </div>
   </section>
 </div>
+<div id="nav" aria-label="页面导航"></div>
 <div id="overview" style="display:none;position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.82);backdrop-filter:blur(8px);padding:32px;box-sizing:border-box;overflow:auto;"></div>
 <script>
 (function(){
   const slides=[...document.querySelectorAll('#deck .slide')];
   const deck=document.getElementById('deck');
   const overview=document.getElementById('overview');
+  const nav=document.getElementById('nav');
   const total=slides.length; let idx=0, lock=false, overviewOn=false, tx=0, ty=0, wheelTO=null, wheelAcc=0;
   deck.style.width=(total*100)+'vw';
   function fit(){ const scale=Math.min((window.innerWidth-8)/1280,(window.innerHeight-8)/720) || 1; document.documentElement.style.setProperty('--stage-scale', String(scale)); }
-  function buildOverview(){ overview.innerHTML=''; const grid=document.createElement('div'); grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;'; slides.forEach((s,i)=>{ const c=document.createElement('button'); c.style.cssText='border:0;background:#fff;padding:16px;border-radius:20px;cursor:pointer;text-align:left;color:#1f1f1f;box-shadow:0 10px 30px rgba(0,0,0,.12);'; const title=s.dataset.title||''; const h=s.querySelector('h1,h2,h3'); const lead=(h?.textContent||'').trim(); c.innerHTML=`<div style="font:700 14px/1.4 Inter, sans-serif;color:#a16a4c;">第 ${i+1} 页</div><div style="margin-top:8px;font:800 24px/1.18 Inter, sans-serif;">${title}</div>${lead && lead!==title ? `<div style="margin-top:10px;font:700 16px/1.45 Inter, sans-serif;color:#2e2825;">${lead}</div>` : ''}`; c.onclick=()=>{overview.style.display='none';overviewOn=false;go(i)}; grid.appendChild(c); }); overview.appendChild(grid); }
-  function render(){ deck.style.transform=`translateX(${-idx*100}vw)`; slides.forEach((s,i)=>{ const page=s.querySelector('.chrome .page'); if(page) page.textContent=`${String(i+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`; }); }
+  function themeForSlide(el){ return el.dataset.theme || (el.classList.contains('light') ? 'light' : 'dark'); }
+  function applyBodyTheme(){ document.body.classList.toggle('light-bg', themeForSlide(slides[idx]) === 'light'); }
+  function buildOverview(){ overview.innerHTML=''; const grid=document.createElement('div'); grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;'; slides.forEach((s,i)=>{ const c=document.createElement('button'); c.style.cssText='border:0;background:#fff;padding:16px;border-radius:20px;cursor:pointer;text-align:left;color:#1f1f1f;box-shadow:0 10px 30px rgba(0,0,0,.12);'; const title=s.dataset.title||''; const h=s.querySelector('h1,h2,h3'); const lead=(h?.textContent||'').trim(); c.innerHTML=`<div style="font:700 14px/1.4 Inter, sans-serif;color:#a16a4c;">第 ${i+1} 页</div><div style="margin-top:8px;font:800 24px/1.18 Noto Serif SC, serif;">${title}</div>${lead && lead!==title ? `<div style="margin-top:10px;font:700 16px/1.45 Inter, sans-serif;color:#2e2825;">${lead}</div>` : ''}`; c.onclick=()=>{overview.style.display='none';overviewOn=false;go(i)}; grid.appendChild(c); }); overview.appendChild(grid); }
+  function buildNav(){ nav.innerHTML=''; slides.forEach((_,i)=>{ const b=document.createElement('button'); b.className='dot'; b.setAttribute('aria-label',`第 ${i+1} 页`); b.onclick=()=>go(i); nav.appendChild(b); }); }
+  function renderNav(){ [...nav.querySelectorAll('.dot')].forEach((d,i)=> d.classList.toggle('active', i===idx)); }
+  function render(){ deck.style.transform=`translateX(${-idx*100}vw)`; slides.forEach((s,i)=>{ const page=s.querySelector('.chrome .page'); if(page) page.textContent=`${String(i+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`; }); renderNav(); applyBodyTheme(); runAnimations(slides[idx]); }
   function go(n){ if(lock) return; idx=Math.max(0,Math.min(total-1,n)); lock=true; render(); history.replaceState(null,'','#/'+(idx+1)); setTimeout(()=>lock=false,650); }
   function fromHash(){ const m=/^#\/(\d+)/.exec(location.hash||''); return m?Math.max(0,Math.min(total-1, parseInt(m[1],10)-1)):0; }
+  function clearAnimState(){ slides.forEach(slide=>{ slide.querySelectorAll('[data-anim]').forEach(el=>{ el.style.opacity=''; el.style.transform=''; }); }); }
+  function runAnimations(slide){ if(!document.body.classList.contains('motion-ready')) return; clearAnimState(); const nodes=[...slide.querySelectorAll('[data-anim]')]; nodes.forEach((el,i)=>{ const kind=el.dataset.anim || 'base'; const delay=90*i; const start = kind==='left' ? 'translateX(-24px)' : (kind==='right' ? 'translateX(24px)' : (kind==='line' ? 'translateY(10px)' : 'translateY(14px)')); el.animate([{opacity:0, transform:start},{opacity:1, transform:'translate(0,0)'}],{duration:560, delay, easing:'cubic-bezier(.22,1,.36,1)', fill:'forwards'}); }); }
   addEventListener('hashchange',()=>{ idx=fromHash(); render(); }); addEventListener('resize', fit);
   addEventListener('keydown',e=>{ if(e.key==='Escape'){ e.preventDefault(); overviewOn=!overviewOn; if(overviewOn){ buildOverview(); overview.style.display='block'; } else overview.style.display='none'; return; } if(overviewOn) return; if(['ArrowRight','PageDown',' ','ArrowDown'].includes(e.key)){ e.preventDefault(); go(idx+1); } if(['ArrowLeft','PageUp','ArrowUp'].includes(e.key)){ e.preventDefault(); go(idx-1); } if(e.key==='Home') go(0); if(e.key==='End') go(total-1); if(e.key==='f' || e.key==='F'){ e.preventDefault(); if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); } });
   addEventListener('wheel',e=>{ if(overviewOn) return; wheelAcc += e.deltaY + e.deltaX; if(Math.abs(wheelAcc)>56){ go(idx + (wheelAcc>0?1:-1)); wheelAcc=0; } clearTimeout(wheelTO); wheelTO=setTimeout(()=>wheelAcc=0,140); }, {passive:true});
   addEventListener('touchstart',e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; }, {passive:true}); addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty; if(Math.abs(dx)>54 && Math.abs(dx)>Math.abs(dy)) go(idx+(dx<0?1:-1)); }, {passive:true});
   function bootGL(canvasId, palette){ const canvas=document.getElementById(canvasId); const gl=canvas.getContext('webgl',{alpha:false,antialias:true}); if(!gl) return; const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`; const fs=`precision highp float; uniform vec2 r; uniform float t; uniform vec3 c1; uniform vec3 c2; void main(){ vec2 uv=(gl_FragCoord.xy/r.xy)*2.-1.; uv.x*=r.x/r.y; float a=sin(uv.x*2.7+t*.35)+cos(uv.y*3.4-t*.28); float b=sin(length(uv)*5.2-t*.4); float m=.5+.22*a+.18*b; vec3 col=mix(c1,c2,smoothstep(.08,.92,m)); gl_FragColor=vec4(col,1.);} `; function sh(type,src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; } const prog=gl.createProgram(); gl.attachShader(prog, sh(gl.VERTEX_SHADER,vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER,fs)); gl.linkProgram(prog); gl.useProgram(prog); const buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW); const loc=gl.getAttribLocation(prog,'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0); const ur=gl.getUniformLocation(prog,'r'), ut=gl.getUniformLocation(prog,'t'), uc1=gl.getUniformLocation(prog,'c1'), uc2=gl.getUniformLocation(prog,'c2'); function resize(){ canvas.width=innerWidth*devicePixelRatio; canvas.height=innerHeight*devicePixelRatio; gl.viewport(0,0,canvas.width,canvas.height); } addEventListener('resize',resize); resize(); function frame(tm){ gl.uniform2f(ur, canvas.width, canvas.height); gl.uniform1f(ut, tm*.001); gl.uniform3fv(uc1, palette[0]); gl.uniform3fv(uc2, palette[1]); gl.drawArrays(gl.TRIANGLES,0,6); requestAnimationFrame(frame); } requestAnimationFrame(frame); }
-  fit(); idx=fromHash(); render(); bootGL('bg-dark', [[0.12,0.1,0.09],[0.26,0.18,0.14]]); bootGL('bg-light', [[0.97,0.93,0.89],[0.95,0.86,0.79]]);
+  if('animate' in document.documentElement){ document.body.classList.add('motion-ready'); }
+  fit(); buildNav(); idx=fromHash(); render(); bootGL('bg-dark', [[0.12,0.1,0.09],[0.26,0.18,0.14]]); bootGL('bg-light', [[0.97,0.93,0.89],[0.95,0.86,0.79]]);
 })();
 </script>
 </body>
