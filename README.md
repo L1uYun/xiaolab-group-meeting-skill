@@ -12,9 +12,9 @@
 
 ## 仓库内容
 
-- `skill/SKILL.md`：发布版模板 skill
-- `template/core/index.html`：极少默认页
-- `template/components/index.html`：可拼装组件页
+- `SKILL.md`：发布版模板 skill
+- `template/index.html`：默认单文件 deck 模板
+- `template/components/index.html`：可拼装布局参考页
 - `template/assets/`：品牌资源与样式
 - `references/`：补充设计说明
 
@@ -55,8 +55,8 @@ git clone https://github.com/L1uYun/xiaolab-group-meeting-skill.git ~/.claude/sk
 ## 交付形式
 
 - 一个可直接打开的 HTML 页面
-- 默认查看入口：`template/core/index.html`
-- 组件查看入口：`template/components/index.html`
+- 默认查看入口：`template/index.html`
+- 组件参考入口：`template/components/index.html`
 - 如有配图，可附同级 `images/` 目录
 
 ## 参考说明
