@@ -1,7 +1,7 @@
 ---
 name: xiaolab
-description: Xiaolab 组会 HTML 模板：默认仅保留极少核心页，其余按组件拼装；模板正文尽量留空，说明与规则下沉到 skill / references。
-version: 1.4.2
+description: Use when creating or refining Xiaolab-style HTML group-meeting decks with a minimal core deck plus a reusable components gallery.
+version: 1.5.0
 author: Hermes Agent
 license: Apache-2.0
 metadata:
@@ -10,276 +10,189 @@ metadata:
     related_skills: [open-design, productivity-skill-router, creative/claude-design]
 ---
 
-# Xiaolab 模板使用说明
+# Xiaolab Group-Meeting Decks
 
-## 何时用
+## Overview
 
-当用户要：
+This skill is for building Xiaolab-style HTML group-meeting decks that stay light, clean, and reusable.
 
-- 用 xiaolab 组会模板出一份新汇报
-- 保持品牌骨架不变，但重做模板组织方式
-- 清理模板、概览、references
-- 把模板收成“极少默认页 + 可拼装组件”
-- 扩展更多样式，但不希望语义页越长越多
+The core idea is simple:
+- keep the default deck very small,
+- move variety into reusable layout components,
+- and avoid turning the template into a half-written presentation.
 
-## 先立总原则
+Use it to create a new deck, refactor an existing Xiaolab template, or review whether a generated deck still feels like a real lab meeting rather than a template demo.
 
-### 1. 先按表达组织，再去取页
+## When to Use
 
-不要默认“把内容依次填进整套模板”。
+Use this skill when you need to:
+- create a Xiaolab-style HTML group-meeting deck,
+- refactor a template into a smaller default deck plus reusable components,
+- expand layout variety without adding many narrow semantic page types,
+- clean visible template noise from a deck,
+- review whether a generated deck still reads like a real weekly meeting.
 
-正确顺序：
+Do not use this skill for:
+- generic slide design unrelated to Xiaolab,
+- repository maintenance or GitHub workflow,
+- internal reviewer playbooks or agent-only troubleshooting notes.
 
-1. 先判断这次组会要表达什么
-2. 再定只需几页
-3. 再从组件库里取布局
-4. 不够再补；多了就删
+## Design Principles
 
-结论：
+### 1. Organize by message first, pages second
 
-- **先有表达结构，再有模板拼接**
-- **组件服务内容，不是内容迁就组件**
+Do not start by filling a large predefined deck.
 
-### 2. 默认只留极少核心页
+Preferred order:
+1. decide the message,
+2. decide how many pages are actually needed,
+3. select layouts from the component library,
+4. add only what is still missing.
 
-真实组会默认只需：
+The template serves the presentation.
+The presentation should not be bent to fit the template.
 
-- 封面
-- 一页主内容
-- 下一步（若有）
+### 2. Keep the default deck minimal
 
-其余都不算默认页，只算**可拼装组件页**。
+A normal group-meeting deck usually needs only:
+- a cover,
+- one main content page,
+- a next-step page when needed.
 
-### 3. 模板正文尽量留空
+Everything else should be treated as optional components, not default required pages.
 
-HTML deck 本体不应预置：
+### 3. Prefer empty structure over fake content
 
-- 示例文案
-- 教学提示语
-- 可见占位符文案（如 `{{主标题}}`）
-- 默认四格数字
-- 默认列表点位
-- 默认流程箭头装饰
-- 默认卡片 / 面板 / 大色块
+The HTML template should not ship with visible placeholder content such as:
+- sample paragraphs,
+- teaching text,
+- visible `{{title}}`-style placeholders,
+- default metric blocks,
+- default bullet scaffolds,
+- decorative process arrows,
+- heavy default cards or panels.
 
-可保留：
+What may remain:
+- minimal cover identifiers,
+- empty text regions,
+- empty media regions,
+- layout skeletons.
 
-- 极少封面识别字段
-- 空文字区
-- 空图片区
-- 布局骨架
+### 4. Keep guidance off the visible page
 
-结论：**空白优于伪内容。**
+Visible pages should not contain template meta-language such as:
+- `核心页 / 参考页`,
+- `备注：...`,
+- "use this page when...",
+- "if the first few pages are enough...".
 
-### 4. 原则不应上屏
+The overview should also stay clean:
+- keep page number and page name,
+- include a real page title only when one actually exists,
+- do not expose notes, summaries, or teaching text.
 
-这些东西应写在 skill / references，不应出现在可见页面：
+## Output Structure
 
-- `核心页 / 参考页`
-- `备注：……`
-- “这页只有在……时才用”
-- “前两三页够用时……”
-
-同理，ESC 概览也应保持简洁：
-
-- 默认只保页码、页名
-- 仅当页面上真有主标题，才额外显示主标题
-- 不抓 notes / 摘要 / 教学句
-
-## 双层产物结构：core deck + components gallery
-
-当用户说“默认页要更少、参考页不要这么多、按组件来做”时，应把模板拆成两层，而不是继续把所有页堆在一份 deck：
+When the template is meant to stay reusable, prefer a two-layer output structure:
 
 1. `core/index.html`
-   - 只留极少默认页
-   - 当前默认：封面 / 主内容 / 下一步
+   - the minimal default deck,
+   - usually cover / main content / next step.
 2. `components/index.html`
-   - 集中展示可拼装布局组件
-   - 不再按“工作量 / 当前判断 / 前后对比”这类语义页扩张
+   - the reusable layout gallery,
+   - a place for optional composition patterns.
 
-适用判断：
+This is better than forcing both roles into a single large deck.
 
-- 用户嫌 `ref` 太多
-- 用户要求“参考其他 HTML 式 PPT 如何实现多种样式、组件”
-- 用户明确要“样式库 / 组件库”，而不是“页型目录”
+## Recommended Directory Shape
 
-做法：
-
-- 保留品牌骨架一致
-- core deck 保持极少、可直接开用
-- components gallery 专门收纳组件页
-- repo 目录与 skill 说明也同步改成双层结构
-
-结论：**少默认页，多组件；组件单列成 gallery。**
-
-## 组件化方向
-
-目标不是增加更多“某某页”，而是维护一组可拼装组件。
-
-当前模板中的组件应理解为：
-
-- 双列图文
-- 双图对照
-- 三栏带
-- 四格媒体区
-- 上下分栏
-- 左重右轻
-- 右重右轻
-- 流程带
-- 对照区
-
-后续若要扩展，也应优先加：
-
-- 更通用的布局骨架
-- 更少装饰的留白样式
-- 更灵活的文字 / 图片比例
-
-而不是继续发明很多语义页名。
-
-## 默认产物
-
-默认产物分两层：
-
-1. **core deck**：只留极少默认页
-2. **components gallery**：集中展示可拼装组件
-
-这样比把所有组件继续堆进一份 deck 更清楚。
-
-默认目录建议：
-
-- `core/index.html`
-- `components/index.html`
-
-除非用户明言要 `.pptx`，否则按 HTML deck 交付。
-
-## 本轮目录形态
-
-当前模板目录应保持为：
-
+Keep the template in this form:
 - `template/core/index.html`
 - `template/components/index.html`
 - `template/assets/*`
 
-不应再保留：
+Avoid keeping obsolete one-off files such as:
+- old `template/index.html`,
+- old split slide files like `slide4.html`, `slide5.html`, `slide6.html`,
+- temporary drafting files.
 
-- 旧的 `template/index.html`
-- 旧散页如 `slide4.html` / `slide5.html` / `slide6.html`
-- 临时草稿如 `recent-work-draft.md`
+## Component Strategy
 
-## 组件化迭代的硬规则
+The goal is not to invent more and more semantic slide names.
+The goal is to maintain a reusable set of layout primitives.
 
-当用户说“多做样式 / 组件”，优先动作不是继续加很多 `ref` 页名，而是：
+Useful component families include:
+- text-image two-column layouts,
+- image-image comparisons,
+- three-column bands,
+- four-slot media grids,
+- top-bottom layouts,
+- left-heavy / right-light layouts,
+- right-heavy / left-light layouts,
+- process bands,
+- comparison zones.
 
-1. 先减少默认页，只留封面 / 主内容 / 下一步这类极少核心页
-2. 再把其余能力抽成可拼装组件
-3. 组件命名优先按布局骨架，不按汇报语义命名
+When expanding the library, prefer:
+- stronger layout variation,
+- lighter framing,
+- more flexible text-image ratios,
+- composable small atoms such as lines, dividers, pills, tiny labels, and slots.
 
-优先组件形态：
+Avoid expanding mainly through narrow semantic page types such as:
+- workload page,
+- current judgment page,
+- highlight summary page,
+- before/after page.
 
-- 双列图文
-- 双图对照
-- 三栏带
-- 四格媒体区
-- 上下分栏
-- 左重右轻 / 右重左轻
-- 流程带
-- 对照区
+## Cleanliness Rules
 
-避免继续膨胀成：
+If a page still feels templated or noisy, check for these first:
+- leftover default bullet structures,
+- leftover box groups,
+- heavy default panels or color blocks,
+- dotted image placeholders that dominate the page,
+- extra navigation dots,
+- overview cards leaking notes or summaries,
+- components that were renamed but still share almost the same skeleton.
 
-- 工作量页
-- 当前判断页
-- 亮点总结页
-- 前后对比页
-- 其他越来越窄的语义页名
+## Realism Rules
 
-结论：**更多布局 primitive，少些语义 page type。**
+A good Xiaolab deck should feel like an actual group meeting.
+It should not feel like a template manual.
 
-## 清稿与概览的补充边界
+Signs of a better deck:
+- each page performs one clear job,
+- titles match the amount of real content,
+- large whitespace is used for rhythm, not to hide weak content,
+- components differ by information action, not only by column ratio,
+- the deck reads like weekly progress, evidence, uncertainty, and next steps.
 
-本轮用户进一步收紧了两条：
+## Common Pitfalls
 
-1. `overview` 卡片也要清洁，只保页码、页名、真实主标题；不带备注、说明、摘要。
-2. 模板中的默认结构痕迹也算脏东西，需继续清：
-   - 默认列表点位
-   - 默认框组
-   - 默认色块 panel
-   - 默认虚线图片区
-   - 默认 dots 导航
+1. **Too many default pages.**
+   If the deck already feels long before real content arrives, reduce the core deck first.
 
-若用户说“第七页仍不干净”“这里还有别的东西”，优先检查：
+2. **Semantic page-type explosion.**
+   If every need becomes a new named page, convert recurring patterns into components instead.
 
-- 是否仍残 `ul/li` 点位
-- 是否 overview 仍泄露 notes
-- 是否有隐藏 UI / dots / 浅色底板残留
-- 是否某页仍以框和色块强行定义内容结构
+3. **Visible template language on the slide.**
+   Remove instructional labels, remarks, and sample prose from the rendered page.
 
-## 组件库演进规则
+4. **Heavy decoration hiding weak structure.**
+   Reduce panels, boxes, and ornamental framing before adding more text.
 
-本轮新增了一条更硬的模板方向：
+5. **Dirty overview cards.**
+   Overview entries should not expose notes, summaries, or hidden author guidance.
 
-### 1. 组件比语义页更重要
+6. **Different names, same skeleton.**
+   If several components feel identical in use, increase structural variation rather than renaming them.
 
-若用户嫌 `ref` 太多、页型太具体、像半成品汇报稿，应优先把模板改成：
+## Verification Checklist
 
-- 极少默认页
-- 一组可拼装组件
-
-而不是继续加：
-
-- 工作量页
-- 当前判断页
-- 亮点总结页
-- 前后对比页
-- 其他越来越窄的语义页名
-
-### 2. 推荐产物结构：core / components 分离
-
-当模板已明显转向组件库时，默认产物不宜继续堆在单一 `index.html` 里。
-
-更清楚的结构是：
-
-- `template/core/index.html`：只留封面、主内容、下一步等极少默认页
-- `template/components/index.html`：集中展示组件 gallery
-
-这比“一个 deck 既是默认模板、又是组件库”更清楚。
-
-### 3. components gallery 的设计原则
-
-组件库不只求多，还要求洁净与节奏。
-
-优先加的是：
-
-- 布局比例变化（50/50、60/40、40/60）
-- 证据位 / 指标位 / 决策位 / 拼贴位
-- 轻线、弱底、少框的节奏变化
-- 可组合的 slot / divider / line-top / tiny / pill 这类原子件
-
-不优先加的是：
-
-- 更多解释文案
-- 更多备注
-- 更重的卡片墙
-- 更窄的语义页名
-
-### 4. 组件洁净度检查
-
-若组件库已做成空骨架，仍要继续查这些脏东西：
-
-- 默认列表点位
-- 残留大色块 panel
-- 多余导航 dots
-- overview 泄露 notes / 摘要
-- 图片虚线框过重，喧宾夺主
-- 组件之间只是换个名字，骨架却未拉开
-
-## 交付检查
-
-完成前至少检查：
-
-- 模板本体是否仍有多余说明文
-- overview 是否仍泄漏备注 / notes / 摘要
-- 是否误把组件做成固定内容结构
-- 是否又长出默认框、默认色块、默认列表点位
-- 第七页这类对照组件是否仍残默认 bullet 结构
-- GitHub 远端是否已同步
+- [ ] The default deck is minimal rather than exhaustive.
+- [ ] Optional variety lives in `components/`, not in many default pages.
+- [ ] No visible placeholder prose or teaching text remains in the rendered deck.
+- [ ] Overview cards expose only clean navigation information.
+- [ ] Components differ by reading action and rhythm, not just by small width changes.
+- [ ] The deck feels like a real group meeting, not a template showcase.
+- [ ] Directory structure matches `core/ + components/ + assets/`.
