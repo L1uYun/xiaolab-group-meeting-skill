@@ -144,6 +144,8 @@ Avoid expanding mainly through narrow semantic page types such as:
 - highlight summary page,
 - before/after page.
 
+See `references/component-patterns.md` for the extended component notes.
+
 ## Cleanliness Rules
 
 If a page still feels templated or noisy, check for these first:
