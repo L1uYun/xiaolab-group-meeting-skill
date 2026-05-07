@@ -1,17 +1,17 @@
 # xiaolab-component-patterns
 
-This note collects reusable layout guidance that supports the published `xiaolab` skill without bloating the main `SKILL.md`.
+This note collects reusable layout guidance for decks built with the published `xiaolab` skill.
 
-## Core vs. Components
+## Default Template vs. Components
 
-Use `core/` for the smallest directly usable default deck.
+Use `template/index.html` as the default directly usable deck seed.
 
-Typical `core` contents:
+Typical default contents:
 - cover,
 - one main content page,
 - next step page when needed.
 
-Use `components/` for optional layout patterns that can be assembled into real decks.
+Use `template/components/index.html` only as an optional layout reference when the default seed is not enough.
 
 ## Recommended Component Families
 
@@ -32,7 +32,7 @@ Preferred reusable patterns:
 
 ## What to Add First
 
-When the library feels too narrow, prefer adding:
+When the default seed feels too narrow, prefer adding:
 - stronger layout-ratio variation,
 - lighter and cleaner framing,
 - more flexible text-image balance,
