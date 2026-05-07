@@ -8,6 +8,8 @@
 - 保留 xiaolab / 湖南大学 / 国家超级计算长沙中心品牌层
 - 适合论文、系统、项目进展类组会汇报
 
+可直接交给 `Claude Code`、`Codex`、`Hermes`、`OpenClaw` 这类 agent 使用。
+
 ## 模板特点
 
 - 保留 xiaolab / 湖大 / 国家超级计算长沙中心品牌层
@@ -48,4 +50,4 @@ git clone https://github.com/L1uYun/xiaolab-group-meeting-skill.git ~/.claude/sk
 
 ## 使用方式
 
-安装后，让 AI 读取这个 skill，并按你的组会主题直接生成 deck 即可。
+安装后，直接把这个 skill 交给 `Claude Code`、`Codex`、`Hermes` 或 `OpenClaw`，再附上你的组会主题和材料即可。
