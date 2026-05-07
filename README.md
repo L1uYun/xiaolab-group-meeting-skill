@@ -2,34 +2,11 @@
 
 面向使用者的 xiaolab 组会 HTML deck skill。
 
-默认目标很简单：
+它的目标很简单：
 
-- 让 AI 帮你做一份 **可直接打开的单文件 HTML 组会 deck**
+- 让 AI 帮你做一份 **可直接打开的 HTML 组会 deck**
 - 保留 xiaolab / 湖南大学 / 国家超级计算长沙中心品牌层
-- 不要求你先理解模板仓库结构
-
-## 最终交付是什么
-
-默认最终交付是：
-
-- 一个 `index.html`
-- 如有配图，再配一个同级 `images/` 目录
-
-不是默认交付：
-
-- `core/index.html`
-- `components/index.html`
-- 多份模板拆页
-
-`template/components/index.html` 只是布局参考页，不是普通用户最终产物。
-
-## 仓库里有什么
-
-- `SKILL.md`：给 Agent 的主工作流
-- `template/index.html`：默认单文件模板
-- `template/components/index.html`：可选布局参考页
-- `template/assets/`：品牌资源与字体
-- `references/`：组件说明和质检清单
+- 适合论文、系统、项目进展类组会汇报
 
 ## 模板特点
 
@@ -64,14 +41,11 @@ git clone https://github.com/L1uYun/xiaolab-group-meeting-skill.git ~/.claude/sk
 - “做一份实验室组会 PPT，但是用网页翻页形式”
 - “按 xiaolab 风格整理这次论文/系统汇报”
 
+## 交付形式
+
+- 一个可直接打开的 HTML 页面
+- 如有配图，可附同级 `images/` 目录
+
 ## 使用方式
 
-1. 让 AI 读取这个 skill
-2. 以 `template/index.html` 为起点生成你的成品
-3. 如果默认骨架不够，再参考 `template/components/index.html` 补布局
-4. 最终仍回到一个单独的 `index.html`
-
-## 预览
-
-直接打开 `template/index.html` 就能看默认模板。  
-直接打开 `template/components/index.html` 就能看布局参考页。
+安装后，让 AI 读取这个 skill，并按你的组会主题直接生成 deck 即可。
